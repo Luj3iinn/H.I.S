@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Information System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Health Information System</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="services.html">Explore Our Services</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="main-content">
+        <h2>Our Services</h2>
+        <p>Explore our medical services for rare and common diseases.</p>
+        <button class="chat-button" onclick="toggleChatBox()">Contact Us</button>
+
+        <div class="chat-box" id="chatBox">
+            <h3>Chat With Us</h3>
+            <div class="chat-messages" id="chatMessages"></div>
+            <input type="text" id="chatInput" class="chat-input" placeholder="Type your message...">
+            <input type="file" id="chatFile" class="chat-input" accept="image/*">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </section>
+
+    <script>
+        function toggleChatBox() {
+            var box = document.getElementById("chatBox");
+            box.style.display = box.style.display === "block" ? "none" : "block";
+        }
+
+        function sendMessage() {
+            var input = document.getElementById("chatInput");
+            var fileInput = document.getElementById("chatFile");
+            var messages = document.getElementById("chatMessages");
+            
+            if (input.value.trim() !== "") {
+                var message = document.createElement("p");
+                message.textContent = "You: " + input.value;
+                messages.appendChild(message);
+                input.value = "";
+                messages.scrollTop = messages.scrollHeight;
+                setTimeout(() => {
+                    var botReply = document.createElement("p");
+                    botReply.textContent = "Hello! How can I help you?";
+                    messages.appendChild(botReply);
+                    messages.scrollTop = messages.scrollHeight;
+                }, 1000);
+            }
+            
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.style.maxWidth = "100%";
+                    img.style.borderRadius = "5px";
+                    messages.appendChild(img);
+                    messages.scrollTop = messages.scrollHeight;
+                };
+                reader.readAsDataURL(file);
+                fileInput.value = "";
+            }
+        }
+    </script>
+</body>
+</html>
